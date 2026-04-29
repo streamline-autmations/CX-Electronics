@@ -19,7 +19,7 @@ export function ProductDetail() {
   const { slug } = useParams<{ slug: string }>()
   const { product, loading, error } = useProduct(slug ?? '')
   const { addItem } = useCart()
-  const { lang, t } = useLang()
+  const { lang } = useLang()
   const [qty, setQty] = useState(1)
   const [activeImage, setActiveImage] = useState(0)
   const [tab, setTab] = useState<'description' | 'specs'>('description')

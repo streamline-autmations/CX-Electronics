@@ -670,7 +670,7 @@ function BestSellers() {
 
 // ═══════════════════════════════════════════════════════════════
 // WHY CHOOSE CXX
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════���═══════════════════════════════════════════════
 function WhyChooseCXX() {
   return (
     <section className="py-20 bg-[#111827] relative overflow-hidden">
@@ -731,7 +731,7 @@ function WhyChooseCXX() {
             transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
             className="grid grid-cols-2 gap-3 sm:gap-4 w-full lg:w-auto lg:min-w-[480px]"
           >
-            {TRUST.map(({ icon: Icon, title, sub }, i) => (
+            {TRUST.map(({ icon: Icon, title, sub }) => (
               <motion.div
                 key={title}
                 whileHover={{ y: -4 }}
