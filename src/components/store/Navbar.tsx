@@ -11,7 +11,8 @@ import { CartDrawer } from './CartDrawer'
 const navLinks = [
   { to: '/', label: 'Home', exact: true },
   { to: '/shop', label: 'Shop' },
-  { to: '/bulk', label: 'Bulk Deals' },
+  { to: '/deals', label: 'Deals' },
+  { to: '/bulk', label: 'Wholesale' },
 ]
 
 const CATEGORIES = [
