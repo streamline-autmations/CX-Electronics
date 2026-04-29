@@ -10,6 +10,7 @@ import { Shop } from './pages/store/Shop'
 import { ProductDetail } from './pages/store/ProductDetail'
 import { BulkShop } from './pages/store/BulkShop'
 import { BulkProductDetail } from './pages/store/BulkProductDetail'
+import { Deals } from './pages/store/Deals'
 import { CartPage } from './pages/store/CartPage'
 import { Checkout } from './pages/store/Checkout'
 import { OrderConfirmation } from './pages/store/OrderConfirmation'
@@ -43,6 +44,7 @@ export default function App() {
             <Route path="/shop/:slug" element={<ProductDetail />} />
             <Route path="/bulk" element={<BulkShop />} />
             <Route path="/bulk/:slug" element={<BulkProductDetail />} />
+            <Route path="/deals" element={<Deals />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/order/:id" element={<OrderConfirmation />} />
