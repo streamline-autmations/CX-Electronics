@@ -128,8 +128,8 @@ export function Navbar() {
 
             {/* Account */}
             <Link
-              to="/admin/login"
-              aria-label="Account"
+              to="/account/login"
+              aria-label="My Account"
               className="hidden sm:flex p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
             >
               <User className="w-5 h-5" />

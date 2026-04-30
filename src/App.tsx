@@ -2,7 +2,16 @@ import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { CartProvider } from './context/CartContext'
 import { LangProvider } from './context/LangContext'
+import { CustomerAuthProvider } from './context/CustomerAuthContext'
 import { ProtectedRoute } from './components/admin/ProtectedRoute'
+
+// Customer account — lazy loaded
+const AccountLogin    = lazy(() => import('./pages/account/Login').then((m) => ({ default: m.AccountLogin })))
+const AccountRegister = lazy(() => import('./pages/account/Register').then((m) => ({ default: m.AccountRegister })))
+const AccountLayout   = lazy(() => import('./pages/account/AccountLayout').then((m) => ({ default: m.AccountLayout })))
+const AccountProfile  = lazy(() => import('./pages/account/Profile').then((m) => ({ default: m.AccountProfile })))
+const MyOrders        = lazy(() => import('./pages/account/MyOrders').then((m) => ({ default: m.MyOrders })))
+const Wishlist        = lazy(() => import('./pages/account/Wishlist').then((m) => ({ default: m.Wishlist })))
 
 // Public store — eagerly loaded
 import { Home } from './pages/store/Home'
@@ -36,6 +45,7 @@ function AdminFallback() {
 export default function App() {
   return (
     <LangProvider>
+      <CustomerAuthProvider>
       <CartProvider>
         <BrowserRouter>
           <Routes>
@@ -51,6 +61,16 @@ export default function App() {
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/order/:id" element={<OrderConfirmation />} />
+
+            {/* ── Customer account ──────────────────────────────── */}
+            <Route path="/account/login"    element={<Suspense fallback={<AdminFallback />}><AccountLogin /></Suspense>} />
+            <Route path="/account/register" element={<Suspense fallback={<AdminFallback />}><AccountRegister /></Suspense>} />
+            <Route path="/account" element={<Suspense fallback={<AdminFallback />}><AccountLayout /></Suspense>}>
+              <Route index element={<Navigate to="/account/profile" replace />} />
+              <Route path="profile"  element={<Suspense fallback={<AdminFallback />}><AccountProfile /></Suspense>} />
+              <Route path="orders"   element={<Suspense fallback={<AdminFallback />}><MyOrders /></Suspense>} />
+              <Route path="wishlist" element={<Suspense fallback={<AdminFallback />}><Wishlist /></Suspense>} />
+            </Route>
 
             {/* ── Admin ─────────────────────────────────────────── */}
             <Route
@@ -85,6 +105,7 @@ export default function App() {
           </Routes>
         </BrowserRouter>
       </CartProvider>
+      </CustomerAuthProvider>
     </LangProvider>
   )
 }
