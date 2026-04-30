@@ -1,8 +1,10 @@
+import { useState, useRef, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { ShoppingCart, Zap } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useCart } from '../../context/CartContext'
 import { useLang } from '../../context/LangContext'
+import { getProductImageUrl } from '../../lib/supabase'
 import type { ProductWithCategory } from '../../lib/supabase'
 
 interface ProductCardProps {
@@ -14,10 +16,34 @@ export function ProductCard({ product, basePath = '/shop' }: ProductCardProps) {
   const { addItem } = useCart()
   const { lang, t } = useLang()
 
+  const [hoverImg, setHoverImg] = useState(0)
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
   const isOutOfStock = product.stock_status === 'out_of_stock'
   const isBulkView = basePath === '/bulk'
   const price = isBulkView && product.bulk_price ? product.bulk_price : product.retail_price
   const name = lang === 'zh' && product.name_zh ? product.name_zh : product.name
+
+  // Resolve up to 4 image URLs — images[] contains raw storage paths in list view
+  const cardImages = useMemo(() => {
+    if (product.images.length > 0) {
+      return product.images.slice(0, 4).map((p) => getProductImageUrl(p, 400))
+    }
+    return product.thumbnail_url ? [product.thumbnail_url] : []
+  }, [product.images, product.thumbnail_url])
+
+  function handleMouseEnter() {
+    if (cardImages.length < 2) return
+    timerRef.current = setInterval(() => {
+      setHoverImg((prev) => (prev + 1) % cardImages.length)
+    }, 750)
+  }
+
+  function handleMouseLeave() {
+    if (timerRef.current) clearInterval(timerRef.current)
+    timerRef.current = null
+    setHoverImg(0)
+  }
 
   const savingsPct =
     isBulkView && product.bulk_price && product.retail_price > product.bulk_price
@@ -49,14 +75,42 @@ export function ProductCard({ product, basePath = '/shop' }: ProductCardProps) {
       <Link to={`${basePath}/${product.slug}`} className="group block h-full">
         <div className="relative bg-white rounded-2xl border border-gray-100 group-hover:border-[#E63939]/40 group-hover:shadow-[0_12px_32px_-12px_rgba(230,57,57,0.35)] transition-all duration-300 overflow-hidden h-full flex flex-col">
           {/* Image */}
-          <div className="relative aspect-square bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
-            {product.thumbnail_url ? (
-              <img
-                src={product.thumbnail_url}
-                alt={name}
-                className="w-full h-full object-contain p-5 group-hover:scale-110 transition-transform duration-500"
-                loading="lazy"
-              />
+          <div
+            className="relative aspect-square bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            {cardImages.length > 0 ? (
+              <>
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={hoverImg}
+                    src={cardImages[hoverImg]}
+                    alt={name}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className={`w-full h-full object-contain p-5 transition-transform duration-500 ${
+                      cardImages.length < 2 ? 'group-hover:scale-110' : ''
+                    }`}
+                    loading="lazy"
+                  />
+                </AnimatePresence>
+                {/* Dot indicators when multiple images */}
+                {cardImages.length > 1 && (
+                  <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    {cardImages.map((_, i) => (
+                      <span
+                        key={i}
+                        className={`w-1.5 h-1.5 rounded-full transition-colors ${
+                          i === hoverImg ? 'bg-[#E63939]' : 'bg-gray-300'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                )}
+              </>
             ) : (
               <div className="w-full h-full flex items-center justify-center">
                 <Zap className="w-12 h-12 text-gray-200" />
