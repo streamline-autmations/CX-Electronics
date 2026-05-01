@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { CartProvider } from './context/CartContext'
 import { LangProvider } from './context/LangContext'
 import { CustomerAuthProvider } from './context/CustomerAuthContext'
+import { WishlistProvider } from './context/WishlistContext'
 import { ProtectedRoute } from './components/admin/ProtectedRoute'
 
 // Customer account — lazy loaded
@@ -48,6 +49,7 @@ export default function App() {
   return (
     <LangProvider>
       <CustomerAuthProvider>
+      <WishlistProvider>
       <CartProvider>
         <BrowserRouter>
           <Routes>
@@ -109,6 +111,7 @@ export default function App() {
           </Routes>
         </BrowserRouter>
       </CartProvider>
+      </WishlistProvider>
       </CustomerAuthProvider>
     </LangProvider>
   )

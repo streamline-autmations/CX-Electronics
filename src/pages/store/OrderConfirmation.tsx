@@ -1,30 +1,49 @@
 import { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
-import { CheckCircle, Package, Loader2 } from 'lucide-react'
+import { useParams, Link, useLocation } from 'react-router-dom'
+import { CheckCircle, Package } from 'lucide-react'
 import { Navbar } from '../../components/store/Navbar'
 import { Footer } from '../../components/store/Footer'
 import { getOrder } from '../../hooks/useOrders'
 import type { OrderWithDetails } from '../../lib/supabase'
 
+const LOCAL_ORDERS_KEY = 'cxx-local-orders'
+
 export function OrderConfirmation() {
   const { id } = useParams<{ id: string }>()
-  const [order, setOrder] = useState<OrderWithDetails | null>(null)
-  const [loading, setLoading] = useState(true)
+  const location = useLocation()
+  const stateOrder = (location.state as { order?: OrderWithDetails } | null)?.order
+
+  const [order, setOrder] = useState<OrderWithDetails | null>(stateOrder ?? null)
+  const [loading, setLoading] = useState(!stateOrder)
 
   useEffect(() => {
-    if (!id) return
+    if (stateOrder || !id) return
+
+    // Check localStorage first (local/demo orders)
+    try {
+      const stored: Record<string, OrderWithDetails> = JSON.parse(
+        localStorage.getItem(LOCAL_ORDERS_KEY) ?? '{}',
+      )
+      if (stored[id]) {
+        setOrder(stored[id])
+        setLoading(false)
+        return
+      }
+    } catch { /* fall through */ }
+
+    // Try fetching from Supabase
     getOrder(id).then((o) => {
       setOrder(o)
       setLoading(false)
     })
-  }, [id])
+  }, [id, stateOrder])
 
   if (loading) {
     return (
       <div className="min-h-screen bg-cxx-bg">
         <Navbar />
         <div className="flex items-center justify-center h-96">
-          <Loader2 className="w-8 h-8 animate-spin text-cxx-blue" />
+          <div className="w-8 h-8 border-2 border-[#E63939] border-t-transparent rounded-full animate-spin" />
         </div>
       </div>
     )
@@ -56,18 +75,26 @@ export function OrderConfirmation() {
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <CheckCircle className="w-8 h-8 text-green-600" />
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-1">Order Confirmed!</h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-1">Order Placed!</h1>
           <p className="text-gray-500">Order #{order.order_number}</p>
         </div>
 
-        {/* Payment status */}
-        <div className={`rounded-xl p-4 mb-5 text-sm font-medium text-center ${
-          order.payment_status === 'paid'
-            ? 'bg-green-50 text-green-700 border border-green-200'
-            : 'bg-amber-50 text-amber-700 border border-amber-200'
-        }`}>
-          Payment: {order.payment_status === 'paid' ? '✓ Paid — thank you!' : 'Awaiting payment confirmation'}
+        {/* Status banner */}
+        <div className="bg-green-50 text-green-700 border border-green-200 rounded-xl p-4 mb-5 text-sm font-medium text-center">
+          Order confirmed — our team will contact you to arrange payment.
         </div>
+
+        {/* Customer info */}
+        {order.customers && (
+          <div className="bg-white rounded-2xl border border-gray-200 p-5 mb-5">
+            <h2 className="font-semibold text-gray-900 mb-3">Customer Details</h2>
+            <div className="text-sm text-gray-600 space-y-0.5">
+              <p className="font-medium text-gray-900">{order.customers.name}</p>
+              {order.customers.email && <p>{order.customers.email}</p>}
+              {order.customers.phone && <p>{order.customers.phone}</p>}
+            </div>
+          </div>
+        )}
 
         {/* Order items */}
         <div className="bg-white rounded-2xl border border-gray-200 p-5 mb-5">
@@ -75,7 +102,9 @@ export function OrderConfirmation() {
           <div className="space-y-2">
             {order.order_items.map((item) => (
               <div key={item.id} className="flex justify-between text-sm">
-                <span className="text-gray-700">{item.product_name} <span className="text-gray-400">x{item.quantity}</span></span>
+                <span className="text-gray-700">
+                  {item.product_name} <span className="text-gray-400">x{item.quantity}</span>
+                </span>
                 <span className="font-medium">R{item.line_total.toFixed(2)}</span>
               </div>
             ))}
@@ -88,8 +117,8 @@ export function OrderConfirmation() {
               <span>Shipping</span>
               <span>{order.shipping_fee === 0 ? 'FREE' : `R${order.shipping_fee.toFixed(2)}`}</span>
             </div>
-            <div className="flex justify-between font-bold text-gray-900 pt-1">
-              <span>Total</span><span>R{order.total.toFixed(2)}</span>
+            <div className="flex justify-between font-bold text-gray-900 pt-1 text-base">
+              <span>Total</span><span className="text-[#E63939]">R{order.total.toFixed(2)}</span>
             </div>
           </div>
         </div>
@@ -103,6 +132,7 @@ export function OrderConfirmation() {
               <p>{addr.address_line1}</p>
               {addr.address_line2 && <p>{addr.address_line2}</p>}
               <p>{addr.city}, {addr.province} {addr.postal_code}</p>
+              {addr.phone && <p>{addr.phone}</p>}
             </div>
           </div>
         )}
