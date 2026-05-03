@@ -1,5 +1,5 @@
 ﻿import { NavLink, Outlet, useNavigate } from 'react-router-dom'
-import { LayoutDashboard, Package, ShoppingCart, LogOut, Zap } from 'lucide-react'
+import { LayoutDashboard, Package, ShoppingCart, LogOut } from 'lucide-react'
 import { signOut } from '../../hooks/useAuth'
 
 const navLinks = [
