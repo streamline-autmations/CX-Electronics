@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import {
   ShoppingCart, Minus, Plus, ArrowLeft, Package, Loader2, Star,
-  MessageCircle, Truck, Shield, RotateCcw, BadgeCheck, Zap,
+  MessageCircle, Truck, Shield, RotateCcw, BadgeCheck, Zap, Heart,
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Navbar } from '../../components/store/Navbar'
@@ -12,6 +12,7 @@ import { useProduct } from '../../hooks/useProduct'
 import { useProducts } from '../../hooks/useProducts'
 import { useCart } from '../../context/CartContext'
 import { useLang } from '../../context/LangContext'
+import { useWishlist } from '../../context/WishlistContext'
 
 const WHATSAPP_NUMBER = '27000000000'
 
@@ -20,6 +21,8 @@ export function ProductDetail() {
   const { product, loading, error } = useProduct(slug ?? '')
   const { addItem } = useCart()
   const { lang } = useLang()
+  const { toggle, has } = useWishlist()
+  const inWishlist = product ? has(product.id) : false
   const [qty, setQty] = useState(1)
   const [activeImage, setActiveImage] = useState(0)
   const [tab, setTab] = useState<'description' | 'specs'>('description')
@@ -340,6 +343,19 @@ export function ProductDetail() {
                 Currently Out of Stock — {lang === 'zh' ? '请稍后再来' : 'Contact us for ETA'}
               </div>
             )}
+
+            {/* Wishlist button */}
+            <button
+              onClick={() => product && toggle(product.id)}
+              className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl border-2 font-semibold text-sm transition-all mb-3 ${
+                inWishlist
+                  ? 'border-[#E63939] bg-[#FEE9E9] text-[#E63939]'
+                  : 'border-gray-200 text-gray-600 hover:border-gray-400'
+              }`}
+            >
+              <Heart className={`w-4 h-4 ${inWishlist ? 'fill-[#E63939]' : ''}`} />
+              {inWishlist ? 'Saved to Wishlist' : 'Save to Wishlist'}
+            </button>
 
             {/* Bulk Quote CTA */}
             {product.is_bulk_available && (

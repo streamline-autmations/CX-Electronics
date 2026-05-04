@@ -1,6 +1,5 @@
-import { useState, type FormEvent } from 'react'
+﻿import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Zap } from 'lucide-react'
 import { signIn } from '../../hooks/useAuth'
 
 export function AdminLogin() {
@@ -30,15 +29,7 @@ export function AdminLogin() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="w-full max-w-sm">
         {/* Logo */}
-        <div className="flex items-center justify-center gap-2 mb-8">
-          <div className="w-10 h-10 bg-cxx-navy rounded-lg flex items-center justify-center">
-            <Zap className="w-5 h-5 text-cxx-blue" />
-          </div>
-          <div>
-            <p className="font-bold text-cxx-navy leading-tight">C&X Electronics</p>
-            <p className="text-xs text-cxx-muted">Admin Panel</p>
-          </div>
-        </div>
+        <div className="flex items-center justify-center gap-2 mb-8"><img src="https://res.cloudinary.com/dzhwylkfr/image/upload/v1777722832/CW-Logo_ujfdip.png" alt="CW Electronics Logo" className="h-10 w-auto" /><div><p className="font-bold text-cxx-navy leading-tight">CW Electronics</p><p className="text-xs text-cxx-muted">Admin Panel</p></div></div>
 
         {/* Form */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
@@ -75,7 +66,7 @@ export function AdminLogin() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-cxx-blue focus:border-transparent"
-                placeholder="••••••••"
+                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
               />
             </div>
 
@@ -92,3 +83,4 @@ export function AdminLogin() {
     </div>
   )
 }
+

@@ -1,9 +1,10 @@
 import { useState, useRef, useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { ShoppingCart, Zap } from 'lucide-react'
+import { ShoppingCart, Zap, Heart } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useCart } from '../../context/CartContext'
 import { useLang } from '../../context/LangContext'
+import { useWishlist } from '../../context/WishlistContext'
 import { getProductImageUrl } from '../../lib/supabase'
 import type { ProductWithCategory } from '../../lib/supabase'
 
@@ -15,6 +16,8 @@ interface ProductCardProps {
 export function ProductCard({ product, basePath = '/shop' }: ProductCardProps) {
   const { addItem } = useCart()
   const { lang, t } = useLang()
+  const { toggle, has } = useWishlist()
+  const inWishlist = has(product.id)
 
   const [hoverImg, setHoverImg] = useState(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -36,7 +39,7 @@ export function ProductCard({ product, basePath = '/shop' }: ProductCardProps) {
     if (cardImages.length < 2) return
     timerRef.current = setInterval(() => {
       setHoverImg((prev) => (prev + 1) % cardImages.length)
-    }, 750)
+    }, 2500)
   }
 
   function handleMouseLeave() {
@@ -90,7 +93,7 @@ export function ProductCard({ product, basePath = '/shop' }: ProductCardProps) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
+                    transition={{ duration: 0.6 }}
                     className={`w-full h-full object-contain p-5 transition-transform duration-500 ${
                       cardImages.length < 2 ? 'group-hover:scale-110' : ''
                     }`}
@@ -137,10 +140,19 @@ export function ProductCard({ product, basePath = '/shop' }: ProductCardProps) {
             </div>
 
             {isBulkView && product.bulk_min_qty && (
-              <span className="absolute top-2.5 right-2.5 text-[10px] bg-[#E63939] text-white px-2 py-0.5 rounded-md font-bold uppercase tracking-wider">
+              <span className="absolute bottom-10 left-2.5 text-[10px] bg-[#E63939] text-white px-2 py-0.5 rounded-md font-bold uppercase tracking-wider">
                 {product.bulk_min_qty}+ units
               </span>
             )}
+
+            {/* Wishlist heart */}
+            <button
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggle(product.id) }}
+              className={`absolute top-2.5 right-2.5 z-10 w-7 h-7 bg-white rounded-full shadow-sm flex items-center justify-center transition-all hover:scale-110 ${inWishlist ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
+              aria-label={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+            >
+              <Heart className={`w-3.5 h-3.5 ${inWishlist ? 'fill-[#E63939] text-[#E63939]' : 'text-gray-400'}`} />
+            </button>
 
             {savingsPct > 0 && (
               <span className="absolute bottom-2.5 right-2.5 text-[10px] bg-emerald-500 text-white px-2 py-0.5 rounded-md font-bold uppercase tracking-wider">

@@ -1,9 +1,16 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Package } from 'lucide-react'
-import { customerSupabase } from '../../lib/customerAuth'
 import { useCustomerAuth } from '../../context/CustomerAuthContext'
-import type { Order } from '../../lib/supabase'
+
+interface LocalOrder {
+  id: string
+  order_number: string
+  status: string
+  total: number
+  created_at: string
+  order_type: string
+}
 
 const STATUS_STYLE: Record<string, string> = {
   pending:    'bg-yellow-500/20 text-yellow-400',
@@ -14,30 +21,21 @@ const STATUS_STYLE: Record<string, string> = {
   cancelled:  'bg-white/10 text-white/40',
 }
 
+const ORDERS_KEY = 'cxx-my-orders'
+
 export function MyOrders() {
   const { user } = useCustomerAuth()
-  const [orders, setOrders] = useState<Order[]>([])
-  const [loading, setLoading] = useState(true)
+  const [orders, setOrders] = useState<LocalOrder[]>([])
 
   useEffect(() => {
     if (!user) return
-    customerSupabase
-      .from('orders')
-      .select('id, order_number, status, payment_status, total, created_at, order_type')
-      .order('created_at', { ascending: false })
-      .then(({ data }) => {
-        setOrders((data ?? []) as Order[])
-        setLoading(false)
-      })
+    try {
+      const saved: LocalOrder[] = JSON.parse(localStorage.getItem(ORDERS_KEY) ?? '[]')
+      setOrders(saved)
+    } catch {
+      setOrders([])
+    }
   }, [user])
-
-  if (loading) {
-    return (
-      <div className="flex justify-center py-16">
-        <div className="w-6 h-6 border-2 border-[#E63939] border-t-transparent rounded-full animate-spin" />
-      </div>
-    )
-  }
 
   if (orders.length === 0) {
     return (
@@ -62,11 +60,17 @@ export function MyOrders() {
               <div>
                 <p className="font-bold text-white text-sm">{order.order_number}</p>
                 <p className="text-xs text-white/30 mt-0.5">
-                  {new Date(order.created_at).toLocaleDateString('en-ZA', { year: 'numeric', month: 'short', day: 'numeric' })}
+                  {new Date(order.created_at).toLocaleDateString('en-ZA', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                <span className={`text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_STYLE[order.status] ?? 'bg-white/10 text-white/40'}`}>
+                <span
+                  className={`text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_STYLE[order.status] ?? 'bg-white/10 text-white/40'}`}
+                >
                   {order.status}
                 </span>
                 <p className="font-bold text-white">R{order.total.toFixed(2)}</p>
