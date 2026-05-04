@@ -4,6 +4,7 @@ import { CartProvider } from './context/CartContext'
 import { LangProvider } from './context/LangContext'
 import { CustomerAuthProvider } from './context/CustomerAuthContext'
 import { ProtectedRoute } from './components/admin/ProtectedRoute'
+import { ScrollToTop } from './components/ScrollToTop'
 
 // Customer account — lazy loaded
 const AccountLogin    = lazy(() => import('./pages/account/Login').then((m) => ({ default: m.AccountLogin })))
@@ -48,6 +49,7 @@ export default function App() {
       <CustomerAuthProvider>
       <CartProvider>
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             {/* ── Public store ─────────────────────────────────── */}
             <Route path="/" element={<Home />} />
