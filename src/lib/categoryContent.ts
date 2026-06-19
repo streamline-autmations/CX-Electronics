@@ -108,6 +108,102 @@ export const CATEGORY_CONTENT: Record<string, CategoryContent> = {
       `CW Electronics imports directly, so retail prices stay sharp and wholesale (6+ units) is available for resellers. Buy at ${SHOWROOM} or delivered nationwide.`,
     ],
   },
+
+  'car-lights': {
+    metaTitle: 'Car Lights & Vehicle Lighting in Johannesburg',
+    metaDescription:
+      'Shop car lights, vehicle bulbs and auto lighting accessories at CW Electronics. Retail & wholesale pricing, nationwide delivery from Johannesburg.',
+    eyebrow: 'Vehicle Lighting',
+    h1: 'Car Lights & Vehicle Lighting',
+    intro: [
+      'Browse car lights and practical vehicle lighting accessories for everyday replacements, resale stock and workshop use. This range is suited to drivers, traders and auto-related businesses looking for dependable stock at competitive pricing.',
+      `CW Electronics imports directly and offers both retail sales and wholesale pricing from 6 units. Collect from ${SHOWROOM} or order for delivery anywhere in South Africa.`,
+    ],
+  },
+
+  'flood-lights': {
+    metaTitle: 'Flood Lights in Johannesburg | CW Electronics',
+    metaDescription:
+      'Buy flood lights for home, business and outdoor security use. Retail & wholesale prices with nationwide delivery from CW Electronics, Johannesburg.',
+    eyebrow: 'Outdoor Lighting',
+    h1: 'Flood Lights',
+    intro: [
+      'Our flood light range is suited to security lighting, outside work areas, shops, yards and general-purpose illumination. It is a strong fit for homeowners, installers and resellers needing practical lighting stock.',
+      `CW Electronics supplies flood lights at retail and trade pricing from 6 units, with collection from ${SHOWROOM} or delivery across South Africa.`,
+    ],
+  },
+
+  'hand-tools': {
+    metaTitle: 'Hand Tools in Johannesburg | CW Electronics',
+    metaDescription:
+      'Shop hand tools for workshop, home and trade use at CW Electronics. Retail & wholesale pricing with nationwide delivery from Johannesburg.',
+    eyebrow: 'Workshop Essentials',
+    h1: 'Hand Tools',
+    intro: [
+      'Find practical hand tools for everyday work, installations, maintenance and resale. This category is ideal for workshops, traders and customers who need useful tools without overcomplicating the buy.',
+      `As a direct importer at ${SHOWROOM}, CW Electronics offers sharp retail pricing and wholesale rates from 6 units, with delivery nationwide.`,
+    ],
+  },
+
+  humidifiers: {
+    metaTitle: 'Humidifiers in Johannesburg | CW Electronics',
+    metaDescription:
+      'Buy humidifiers for home, office and gift use at CW Electronics. Retail & wholesale pricing, with delivery across South Africa.',
+    eyebrow: 'Home Comfort',
+    h1: 'Humidifiers',
+    intro: [
+      'Browse humidifiers for bedrooms, offices, desks and gift ranges. These are practical home-comfort products for walk-in buyers as well as resellers who want lighter household electronics in their range.',
+      `CW Electronics sells humidifiers at retail and offers wholesale pricing from 6 units, with collection at ${SHOWROOM} or delivery nationwide.`,
+    ],
+  },
+
+  'mouse-keyboard-combos': {
+    metaTitle: 'Mouse & Keyboard Combos in Johannesburg',
+    metaDescription:
+      'Shop mouse and keyboard combos for office, school and home setups. Retail & wholesale prices from CW Electronics, Johannesburg.',
+    eyebrow: 'Computing Essentials',
+    h1: 'Mouse & Keyboard Combos',
+    intro: [
+      'Our mouse and keyboard combos are a straightforward fit for desktop setups, school use, office replacement stock and resale counters. They are ideal for customers looking for simple plug-and-play value.',
+      `CW Electronics offers retail pricing for single purchases and wholesale pricing from 6 units, with nationwide delivery or collection from ${SHOWROOM}.`,
+    ],
+  },
+
+  'pest-repellents': {
+    metaTitle: 'Pest Repellents in Johannesburg | CW Electronics',
+    metaDescription:
+      'Buy electronic pest repellents at CW Electronics. Retail & wholesale prices with nationwide delivery from Johannesburg.',
+    eyebrow: 'Home Protection',
+    h1: 'Pest Repellents',
+    intro: [
+      'Browse electronic pest repellents suited to homes, storerooms, shops and small business spaces. This category works well for customers who want simple preventative products and resellers building out a practical household range.',
+      `CW Electronics supplies pest repellents at retail and wholesale pricing from 6 units, with collection from ${SHOWROOM} or delivery across South Africa.`,
+    ],
+  },
+
+  torches: {
+    metaTitle: 'Torches & Flashlights in Johannesburg',
+    metaDescription:
+      'Shop torches and flashlights for home, security and load-shedding use. Retail & wholesale prices from CW Electronics, Johannesburg.',
+    eyebrow: 'Portable Lighting',
+    h1: 'Torches & Flashlights',
+    intro: [
+      'Find torches and flashlights for security staff, households, vehicles, camping, emergency kits and load-shedding backup. This range is ideal for both individual buyers and resale counters.',
+      `CW Electronics offers retail pricing and wholesale rates from 6 units, with collection from ${SHOWROOM} or delivery anywhere in South Africa.`,
+    ],
+  },
+
+  'led-lights': {
+    metaTitle: 'LED Lights in Johannesburg | CW Electronics',
+    metaDescription:
+      'Buy LED lights at CW Electronics for home, shop and resale use. Retail & wholesale pricing with nationwide delivery from Johannesburg.',
+    eyebrow: 'Energy-Efficient Lighting',
+    h1: 'LED Lights',
+    intro: [
+      'Browse LED lights for practical day-to-day lighting needs in homes, shops, work areas and resale channels. This category is suited to customers who want efficient, useful lighting at accessible pricing.',
+      `CW Electronics sells LED lights at retail and offers wholesale pricing from 6 units, with collection at ${SHOWROOM} or nationwide delivery.`,
+    ],
+  },
 }
 
 /** Falls back to a sensible generic block for categories without bespoke copy. */

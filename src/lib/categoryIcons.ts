@@ -1,6 +1,7 @@
 import {
   Plug, Shield, Wifi, Watch, Sun, Smartphone, Package, Lightbulb,
   Camera, Headphones, Battery, Cable, Cpu, Speaker, Tv, Zap,
+  Car, Hammer, Droplets, Keyboard, Bug, Flashlight,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -24,6 +25,14 @@ const ICON_BY_SLUG: Record<string, LucideIcon> = {
   speakers: Speaker,
   batteries: Battery,
   'power-banks': Battery,
+  'car-lights': Car,
+  'flood-lights': Lightbulb,
+  'hand-tools': Hammer,
+  humidifiers: Droplets,
+  'mouse-keyboard-combos': Keyboard,
+  'pest-repellents': Bug,
+  torches: Flashlight,
+  'led-lights': Lightbulb,
   computing: Cpu,
   tvs: Tv,
   electronics: Zap,

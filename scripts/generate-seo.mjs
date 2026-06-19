@@ -45,6 +45,14 @@ const GOOGLE_CATEGORY = {
   tools: 'Hardware > Tools',
   household: 'Home & Garden > Household Supplies',
   automobile: 'Electronics > Vehicle Electronics',
+  'car-lights': 'Vehicles & Parts > Vehicle Parts & Accessories > Vehicle Lighting',
+  'flood-lights': 'Home & Garden > Lighting > Outdoor Lighting',
+  'hand-tools': 'Hardware > Tools > Handheld Tools',
+  humidifiers: 'Home & Garden > Household Appliances > Climate Control Appliances > Humidifiers',
+  'mouse-keyboard-combos': 'Electronics > Computers > Computer Input Devices',
+  'pest-repellents': 'Home & Garden > Household Supplies > Pest Control',
+  torches: 'Sporting Goods > Outdoor Recreation > Camping & Hiking > Flashlights & Headlamps',
+  'led-lights': 'Home & Garden > Lighting > Light Bulbs > LED Light Bulbs',
 }
 
 // Blog post slugs — keep in sync with src/lib/blog.ts (BLOG_POSTS).
