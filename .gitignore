@@ -1,19 +1,25 @@
-# Dependencies
+# ── Dependencies ─────────────────────────────────────────────────────
 node_modules/
 
-# Build output
+# ── Build output ─────────────────────────────────────────────────────
 dist/
+dist-ssr/
+*.local
 
-# Environment — never commit keys
+# ── Environment — never commit real credentials ──────────────────────
+# `.env.example` is the committed template; everything else stays local.
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
 
-# Logs
+# ── Logs ─────────────────────────────────────────────────────────────
 *.log
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# Editor
+# ── Editor / IDE ─────────────────────────────────────────────────────
 .vscode/
 .idea/
 *.suo
@@ -22,28 +28,39 @@ npm-debug.log*
 *.sln
 *.sw?
 
-# OS
+# ── OS ───────────────────────────────────────────────────────────────
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# Python
+# ── Python (catalogue tooling is kept outside this repo) ─────────────
 __pycache__/
-*.pyc
+*.py[cod]
+.venv/
+venv/
 
-# ── Local data-migration working files (NOT app source) ──────────────
-# Throwaway artifacts from catalog / price / image / spec maintenance:
-# DB snapshots/backups, generated SQL, and CSV/JSON/HTML worklists.
+# ── AI / agent tooling metadata (machine-local, not project config) ──
+.claude/
+.codex/
+.agents/
+.n8nac/
+.bolt/
+.kilocode/
+.trae/
+.aider*
+.mcp.json
+
+# ── Local data-migration working files (NOT application source) ──────
+# Throwaway artifacts from catalogue / price / image / spec maintenance:
+# DB snapshots, generated SQL, and CSV/JSON/HTML worklists. The long-lived
+# copies live outside the repo in ../CX-Website-archive/.
 *.csv
 *.sql
+*.xlsx
 *_backup_*.json
-_catcodes.json
-apply_all.json
-apply_set.json
-code_backfill.json
-held_apply.json
-serper_images.json
 *_review.html
 *_apply.json
+*_proposal.json
 scripts/*.json
 scripts/spec_in/
 scripts/spec_out/
@@ -51,9 +68,8 @@ scripts/name_in/
 scripts/name_out/
 scripts/diff_in/
 scripts/diff_out/
-*_proposal.json
 
-# One-off DB maintenance scripts (run locally with node, read .env.local)
+# One-off DB maintenance scripts (run locally with node, read .env.local)…
 scripts/*.mjs
-# ...except the SEO generator, which runs in the Netlify build (see package.json)
+# …except the SEO generator, which runs as part of the Netlify build.
 !scripts/generate-seo.mjs

@@ -1,5 +1,5 @@
 import { supabase } from '../src/lib/supabase'
-import type { Order, OrderItem, Customer, ShippingAddress, Product } from '../src/lib/supabase'
+import type { Order, OrderItem, Customer, ShippingAddress } from '../src/lib/supabase'
 
 // Helper to generate order numbers sequentially
 async function getNextOrderNumber(): Promise<string> {
@@ -28,16 +28,6 @@ const sampleCustomers = [
   { name: 'Lerato Molefe', email: 'lerato.m@email.com', phone: '+27 83 159 7534', address: { address_line1: '34 Maunde Street', city: 'Bloemfontein', province: 'Free State', postal_code: '9301' } },
   { name: 'Pieter Steyn', email: 'pieter.steyn@email.com', phone: '+27 82 456 1230', address: { address_line1: ' Century Boulevard', city: 'Midrand', province: 'Gauteng', postal_code: '1685' } },
 ]
-
-// Helper to generate random past date within last 30 days
-function randomPastDate(): Date {
-  const daysAgo = Math.floor(Math.random() * 30)
-  const hoursAgo = Math.floor(Math.random() * 24)
-  const date = new Date()
-  date.setDate(date.getDate() - daysAgo)
-  date.setHours(hoursAgo, Math.floor(Math.random() * 60), 0, 0)
-  return date
-}
 
 // Helper to generate shipping address object
 function buildShippingAddress(customer: typeof sampleCustomers[0]): ShippingAddress {
@@ -109,8 +99,6 @@ export async function seedOrders(): Promise<void> {
       const orderType = orderTypes[Math.floor(Math.random() * orderTypes.length)]
       const paymentMethod = paymentMethods[Math.floor(Math.random() * paymentMethods.length)]
       const paymentStatus = status === 'cancelled' ? 'refunded' : (Math.random() > 0.2 ? 'paid' : 'unpaid')
-
-      const createdAt = randomPastDate().toISOString()
 
       // Select 1-4 random products for this order
       const numItems = Math.floor(Math.random() * 4) + 1

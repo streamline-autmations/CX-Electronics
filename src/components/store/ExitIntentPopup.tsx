@@ -51,7 +51,9 @@ export function ExitIntentPopup() {
       if (!armed || fired) return
       // Only fire when the pointer truly leaves the viewport from the top edge
       if (e.relatedTarget !== null) return
-      if ((e as any).toElement) return
+      // `toElement` is a non-standard legacy alias for relatedTarget; some
+      // WebKit builds still set it on intra-page mouseout events.
+      if ((e as MouseEvent & { toElement?: EventTarget | null }).toElement) return
       if (e.clientY > 0) return
       if (!document.hasFocus()) return
       fire()
