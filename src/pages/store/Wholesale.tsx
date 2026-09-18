@@ -76,7 +76,8 @@ export function Wholesale() {
   function setCategory(slug: string) {
     setSearchParams((prev) => {
       const next = new URLSearchParams(prev)
-      slug ? next.set('category', slug) : next.delete('category')
+      if (slug) next.set('category', slug)
+      else next.delete('category')
       return next
     })
   }
@@ -84,7 +85,8 @@ export function Wholesale() {
   function applySearch(q: string) {
     setSearchParams((prev) => {
       const next = new URLSearchParams(prev)
-      q.trim() ? next.set('q', q.trim()) : next.delete('q')
+      if (q.trim()) next.set('q', q.trim())
+      else next.delete('q')
       return next
     })
   }
