@@ -196,22 +196,25 @@ checkout call site because order creation is already a separate primitive.
 
 ## Screenshots
 
-> Screenshots are not yet committed. To add them, capture the following at
-> 1440×900 (desktop) and 390×844 (mobile), save to `docs/screenshots/`, and
-> replace the placeholders below.
+### Storefront home
 
-| View | File | What to capture |
-|---|---|---|
-| Storefront home | `docs/screenshots/home.png` | Hero and featured products |
-| Product detail | `docs/screenshots/product.png` | Gallery, pricing, reviews |
-| Wholesale view | `docs/screenshots/wholesale.png` | Bulk pricing and 6-unit minimum |
-| Checkout | `docs/screenshots/checkout.png` | Delivery options and totals |
-| Admin dashboard | `docs/screenshots/admin-dashboard.png` | Revenue charts |
-| Admin order detail | `docs/screenshots/admin-order.png` | Status pipeline and timeline |
-| Mobile storefront | `docs/screenshots/mobile.png` | Navigation and sticky add-to-cart |
+![Storefront home](docs/screenshots/home-desktop.png)
 
-Use anonymised or sample data — do not capture real customer names, addresses,
-phone numbers or order values.
+### Product detail
+
+![Product detail](docs/screenshots/product-desktop.png)
+
+### Checkout
+
+![Checkout](docs/screenshots/checkout-desktop.png)
+
+### Mobile storefront
+
+![Mobile storefront](docs/screenshots/mobile.png)
+
+A wholesale-pricing capture is also in `docs/screenshots/`. Admin dashboard/order
+screens aren't included here — they need an `is_cw_admin` login and weren't captured
+to avoid an unauthenticated login attempt against production.
 
 ---
 
